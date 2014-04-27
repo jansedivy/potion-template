@@ -4,20 +4,57 @@ module.exports = function(app) {
     this.showDebug = true;
 
     this.keyShortcuts = [
-      { key: 93, entry: 'showDebug', type: 'toggle' },
-      { key: 91, entry: 'reload', type: 'call' }
+      { key: 93, entry: 'showDebug', type: 'toggle' }
     ];
+
+    var self = this;
+    window.onerror = function(error) {
+      self.error(error);
+    };
   };
 
-  Debugger.prototype.reload = function() {
-    // app.running = false;
-    // var script = document.createElement('script');
-    // script.src = 'bundle.js';
-    // document.body.appendChild(script);
+  Debugger.prototype.error = function(message) {
+    this.print(Array.prototype.slice.call(message), 'error');
   };
 
-  Debugger.prototype.log = function(text) {
-    this.logs.push({ text: text, life: 4 });
+  Debugger.prototype.warning = function(message) {
+    this.print(Array.prototype.slice.call(message), 'warning');
+  };
+
+  Debugger.prototype.log = function(message) {
+    this.print(Array.prototype.slice.call(message), 'log');
+  };
+
+  Debugger.prototype.print = function(message, type) {
+    if (message) {
+      if (message !== null && typeof message === 'object') {
+        message = this.stringifyObject(message);
+      } else {
+        message = message.toString();
+      }
+
+      this.logs.push({ text: message, life: 4, type: type });
+    }
+  };
+
+  Debugger.prototype.stringifyObject = function(o) {
+    var cache = [];
+
+    var result = JSON.stringify(o, function(key, value) {
+      if (typeof value === 'object' && value !== null) {
+        if (cache.indexOf(value) !== -1) {
+          // Circular reference found, discard key
+          return;
+        }
+        // Store value in our collection
+        cache.push(value);
+      }
+      return value;
+    });
+
+    cache = null;
+
+    return result;
   };
 
   Debugger.prototype.update = function(time) {
@@ -57,11 +94,19 @@ module.exports = function(app) {
       app.video.ctx.strokeStyle = 'black';
       app.video.ctx.textAlign = 'left';
       app.video.ctx.lineCap = 'round';
-      app.video.ctx.fillStyle = 'white';
       app.video.ctx.lineWidth = 3;
 
       for (var i=0, len=this.logs.length; i<len; i++) {
         var log = this.logs[i];
+
+        var color = 'white';
+        if (log.type === 'error') {
+          color = 'red';
+        } else if (log.type === 'warning') {
+          color = 'yellow';
+        }
+
+        app.video.ctx.fillStyle = color;
 
         app.video.ctx.strokeText(log.text, 10, -10 + app.height + (i - this.logs.length + 1) * 20);
         app.video.ctx.fillText(log.text, 10, -10 + app.height + (i - this.logs.length + 1) * 20);
