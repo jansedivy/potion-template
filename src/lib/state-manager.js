@@ -6,7 +6,6 @@ var StateManager = function() {
 
 StateManager.prototype.add = function(name, state) {
   this.states[name] = this.newStateHolder(name, state);
-  state.init();
   this.refreshOrder();
   return state;
 };
@@ -31,6 +30,7 @@ StateManager.prototype.newStateHolder = function(name, state) {
   holder.enabled = true;
   holder.paused = false;
   holder.render = true;
+  holder.initialized = false;
   holder.update = true;
   return holder;
 };
@@ -51,6 +51,11 @@ StateManager.prototype.destroy = function(name) {
 StateManager.prototype.update = function(time) {
   for (var i=0, len=this.updateOrder.length; i<len; i++) {
     var state = this.updateOrder[i];
+    if (!state.initialized && state.state.init) {
+      state.state.init();
+      state.initialized = true;
+    }
+
     if (state.enabled && state.update && !state.paused) {
       state.state.update(time);
     }
