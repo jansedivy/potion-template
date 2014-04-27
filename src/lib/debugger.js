@@ -14,15 +14,15 @@ module.exports = function(app) {
   };
 
   Debugger.prototype.error = function(message) {
-    this.print(Array.prototype.slice.call(message), 'error');
+    this.print(message, 'error');
   };
 
   Debugger.prototype.warning = function(message) {
-    this.print(Array.prototype.slice.call(message), 'warning');
+    this.print(message, 'warning');
   };
 
   Debugger.prototype.log = function(message) {
-    this.print(Array.prototype.slice.call(message), 'log');
+    this.print(message, 'log');
   };
 
   Debugger.prototype.print = function(message, type) {
