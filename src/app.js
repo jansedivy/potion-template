@@ -20,6 +20,9 @@ var app = Potion.init(document.querySelector('.game'), {
   },
 
   init: function() {
+    GameState = require('./states/game-state')(this);
+    MenuState = require('./states/menu-state')(this);
+
     this.config = {
       stepTime: 0.01666,
       fixedStep: false
@@ -105,6 +108,4 @@ var app = Potion.init(document.querySelector('.game'), {
   }
 });
 
-MenuState = require('./states/menu-state')(app);
-GameState = require('./states/game-state')(app);
 Debugger = require('./lib/debugger')(app);
