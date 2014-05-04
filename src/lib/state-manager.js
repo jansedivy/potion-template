@@ -54,8 +54,8 @@ StateManager.prototype.update = function(time) {
   for (var i=0, len=this.updateOrder.length; i<len; i++) {
     var state = this.updateOrder[i];
     if (!state.initialized && state.state.init) {
-      state.state.init();
       state.initialized = true;
+      state.state.init();
     }
 
     if (state.enabled && state.update && !state.paused) {
