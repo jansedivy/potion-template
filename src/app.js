@@ -42,6 +42,8 @@ var app = Potion.init(document.querySelector('.game'), {
     document.body.appendChild(stats.domElement);
     this.stats = stats;
 
+    this.game = null;
+
     this.timer = new Timer();
 
     this.debug = new Debugger();
@@ -103,7 +105,7 @@ var app = Potion.init(document.querySelector('.game'), {
       if (this.states.get('game')) {
         this.states.remove('game');
       }
-      this.states.add('game', new GameState());
+      this.game = this.states.add('game', new GameState());
     }
   }
 });
