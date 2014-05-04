@@ -1,11 +1,8 @@
-var State = require('../lib/state');
-
 module.exports = function(app) {
-  var GameState = function() {
-  };
+  var GameState = function() {};
 
-  GameState.prototype = Object.create(State.prototype);
-  GameState.prototype.constructor = GameState;
+  GameState.prototype.init = function() {
+  };
 
   return GameState;
 };

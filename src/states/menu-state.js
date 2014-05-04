@@ -1,11 +1,5 @@
-var State = require('../lib/state');
-
 module.exports = function(app) {
-  var MenuState = function() {
-  };
-
-  MenuState.prototype = Object.create(State.prototype);
-  MenuState.prototype.constructor = MenuState;
+  var MenuState = function() {};
 
   MenuState.prototype.init = function() {
   };
