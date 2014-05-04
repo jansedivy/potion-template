@@ -42,7 +42,9 @@ StateManager.prototype.get = function(name) {
 StateManager.prototype.destroy = function(name) {
   var state = this.get(name);
   if (state) {
-    state.state.close();
+    if (state.state.close) {
+      state.state.close();
+    }
     delete this.states[name];
     this.refreshOrder();
   }
@@ -65,7 +67,7 @@ StateManager.prototype.update = function(time) {
 StateManager.prototype.render = function() {
   for (var i=0, len=this.renderOrder.length; i<len; i++) {
     var state = this.renderOrder[i];
-    if (state.enabled && state.update && !state.paused) {
+    if (state.enabled && state.render && !state.paused) {
       state.state.render();
     }
   }
@@ -74,7 +76,7 @@ StateManager.prototype.render = function() {
 StateManager.prototype.mouseup = function(x, y) {
   for (var i=0, len=this.updateOrder.length; i<len; i++) {
     var state = this.updateOrder[i];
-    if (state && state.enabled && !state.paused) {
+    if (state.enabled && state.state.mouseup && !state.paused) {
       state.state.mouseup(x, y);
     }
   }
@@ -83,7 +85,7 @@ StateManager.prototype.mouseup = function(x, y) {
 StateManager.prototype.click = function(x, y, button) {
   for (var i=0, len=this.updateOrder.length; i<len; i++) {
     var state = this.updateOrder[i];
-    if (state && state.enabled && !state.paused) {
+    if (state.enabled && state.state.click && !state.paused) {
       state.state.click(x, y, button);
     }
   }
@@ -92,7 +94,7 @@ StateManager.prototype.click = function(x, y, button) {
 StateManager.prototype.keypress = function(key) {
   for (var i=0, len=this.updateOrder.length; i<len; i++) {
     var state = this.updateOrder[i];
-    if (state && state.enabled && !state.paused) {
+    if (state.enabled && state.state.keypress && !state.paused) {
       state.state.keypress(key);
     }
   }
