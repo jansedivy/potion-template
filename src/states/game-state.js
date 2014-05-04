@@ -5,7 +5,7 @@ module.exports = function(app) {
   };
 
   GameState.prototype = Object.create(State.prototype);
-  GameState.constructor = State;
+  GameState.prototype.constructor = GameState;
 
   return GameState;
 };

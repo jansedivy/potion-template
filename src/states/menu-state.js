@@ -5,7 +5,7 @@ module.exports = function(app) {
   };
 
   MenuState.prototype = Object.create(State.prototype);
-  MenuState.constructor = State;
+  MenuState.prototype.constructor = MenuState;
 
   MenuState.prototype.init = function() {
   };
