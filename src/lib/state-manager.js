@@ -58,7 +58,7 @@ StateManager.prototype.update = function(time) {
       state.state.init();
     }
 
-    if (state.enabled && state.update && !state.paused) {
+    if (state.enabled && state.state.update && !state.paused) {
       state.state.update(time);
     }
   }
@@ -67,7 +67,7 @@ StateManager.prototype.update = function(time) {
 StateManager.prototype.render = function() {
   for (var i=0, len=this.renderOrder.length; i<len; i++) {
     var state = this.renderOrder[i];
-    if (state.enabled && state.render && !state.paused) {
+    if (state.enabled && state.state.render && !state.paused) {
       state.state.render();
     }
   }
