@@ -1,3 +1,5 @@
+var Stats = require('stats.js');
+
 module.exports = function(app) {
   var Debugger = function() {
     this.logs = [];
@@ -7,10 +9,15 @@ module.exports = function(app) {
       { key: 93, entry: 'showDebug', type: 'toggle' }
     ];
 
+    this.stats = new Stats(200);
+    this.stats.setMode(0);
+    this.stats.domElement.style.position = 'absolute';
+    this.stats.domElement.style.right = '0px';
+    this.stats.domElement.style.top = '0px';
+    document.body.appendChild(this.stats.domElement);
+
     var self = this;
-    window.onerror = function(error) {
-      self.error(error);
-    };
+    window.onerror = function(error) { self.error(error); };
   };
 
   Debugger.prototype.error = function(message) {
@@ -113,6 +120,14 @@ module.exports = function(app) {
       }
       app.video.ctx.restore();
     }
+  };
+
+  Debugger.prototype.beginFrame = function() {
+    this.stats.begin();
+  };
+
+  Debugger.prototype.endFrame = function() {
+    this.stats.end();
   };
 
   return Debugger;

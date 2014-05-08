@@ -6,8 +6,6 @@ var VideoMixin = require('./lib/video-mixin');
 var Timer = require('./lib/timer');
 var StateManager = require('./lib/state-manager');
 
-var Stats = require('./lib/stats.js');
-
 var app = Potion.init(document.querySelector('.game'), {
   resize: function() {
     this.width = document.body.clientWidth;
@@ -34,14 +32,6 @@ var app = Potion.init(document.querySelector('.game'), {
       strayTime: 0
     };
 
-    var stats = new Stats();
-    stats.setMode(0);
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.right = '0px';
-    stats.domElement.style.top = '0px';
-    document.body.appendChild(stats.domElement);
-    this.stats = stats;
-
     this.game = null;
 
     this.timer = new Timer();
@@ -58,11 +48,12 @@ var app = Potion.init(document.querySelector('.game'), {
   render: function() {
     this.states.render();
     this.debug.render();
-    this.stats.end();
+
+    this.debug.endFrame();
   },
 
   update: function(time) {
-    this.stats.begin();
+    this.debug.beginFrame();
     this.runtime.time = this.runtime.time + time;
 
     this.runtime.realFps = 1/time;
