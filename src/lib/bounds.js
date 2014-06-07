@@ -10,32 +10,48 @@ Bounds.prototype.set = function(l, t, r, b) {
 };
 
 Bounds.prototype.move = function(l, t) {
-  this.set(l, t, l + this.getWidth(), t + this.getHeight());
+  this.set(l, t, l + this.width, t + this.height);
 };
 
 Bounds.prototype.moveX = function(l) {
-  this.set(l, this.t, l + this.getWidth(), this.b);
+  this.set(l, this.t, l + this.width, this.b);
 };
 
 Bounds.prototype.moveY = function(t) {
-  this.set(this.l, t, this.r, t + this.getHeight());
+  this.set(this.l, t, this.r, t + this.height);
 };
 
-Bounds.prototype.setWidth = function(width) {
-  this.r = this.l + width;
-};
+Object.defineProperty(Bounds.prototype, 'width', {
+  get: function() {
+    return this.r - this.l;
+  },
 
-Bounds.prototype.setHeight = function(height) {
-  this.b = this.t + height;
-};
+  set: function(value) {
+    this.r = this.l + value;
+  }
+});
 
-Bounds.prototype.getWidth = function() {
-  return this.r - this.l;
-};
+Object.defineProperty(Bounds.prototype, 'height', {
+  get: function() {
+    return this.b - this.t;
+  },
 
-Bounds.prototype.getHeight = function() {
-  return this.b - this.t;
-};
+  set: function(value) {
+    this.b = this.l + value;
+  }
+});
+
+Object.defineProperty(Bounds.prototype, 'centerX', {
+  get: function() {
+    return this.l + this.width * 0.5;
+  }
+});
+
+Object.defineProperty(Bounds.prototype, 'centerY', {
+  get: function() {
+    return this.t + this.height * 0.5;
+  }
+});
 
 Bounds.prototype.nudge = function(x, y) {
   x = x || 0;
@@ -45,14 +61,6 @@ Bounds.prototype.nudge = function(x, y) {
   this.t = this.t + y;
   this.r = this.r + x;
   this.b = this.b + y;
-};
-
-Bounds.prototype.getCenterX = function() {
-  return this.l + this.getWidth() * 0.5;
-};
-
-Bounds.prototype.getCenterY = function() {
-  return this.t + this.getHeight() * 0.5;
 };
 
 Bounds.prototype.inside = function(x, y) {
@@ -67,11 +75,11 @@ Bounds.prototype.intersect = function(other) {
 };
 
 Bounds.prototype.resolveCollision = function(other) {
-  var dx = (this.getCenterX() - other.getCenterX()) / other.getWidth();
-  var dy = (this.getCenterY() - other.getCenterY()) / other.getHeight();
+  var dx = (this.centerX - other.centerX) / other.width;
+  var dy = (this.centerY - other.centerY) / other.height;
 
   if (Math.abs(dx) > Math.abs(dy)) {
-    if (this.getCenterX() > other.getCenterX()) {
+    if (this.centerX > other.centerX) {
       this.nudge(other.r - this.l, 0);
       return 1;
     } else {
@@ -79,7 +87,7 @@ Bounds.prototype.resolveCollision = function(other) {
       return 3;
     }
   } else {
-    if (this.getCenterY() > other.getCenterY()) {
+    if (this.centerY > other.centerY) {
       this.nudge(0, other.b - this.t);
       return 2;
     } else {
