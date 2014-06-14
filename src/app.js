@@ -3,7 +3,6 @@ var MenuState, GameState, Debugger;
 var Potion = require('potion');
 
 var VideoMixin = require('./lib/video-mixin');
-var Timer = require('./lib/timer');
 var StateManager = require('./lib/state-manager');
 
 var app = Potion.init(document.querySelector('.game'), {
@@ -33,8 +32,6 @@ var app = Potion.init(document.querySelector('.game'), {
     };
 
     this.game = null;
-
-    this.timer = new Timer();
 
     this.debug = new Debugger();
 
@@ -71,7 +68,6 @@ var app = Potion.init(document.querySelector('.game'), {
 
   _update: function(time) {
     this.debug.update(time);
-    this.timer.update(time);
     this.states.update(time);
   },
 
