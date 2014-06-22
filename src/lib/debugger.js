@@ -100,13 +100,14 @@ module.exports = function(app) {
       app.video.ctx.font = '15px sans-serif';
       app.video.ctx.strokeStyle = 'black';
       app.video.ctx.textAlign = 'left';
-      app.video.ctx.lineCap = 'round';
+      app.video.ctx.lineJoin = 'round';
       app.video.ctx.lineWidth = 3;
 
       for (var i=0, len=this.logs.length; i<len; i++) {
         var log = this.logs[i];
 
         var color = 'white';
+
         if (log.type === 'error') {
           color = 'red';
         } else if (log.type === 'warning') {
@@ -115,8 +116,10 @@ module.exports = function(app) {
 
         app.video.ctx.fillStyle = color;
 
-        app.video.ctx.strokeText(log.text, 10, -10 + app.height + (i - this.logs.length + 1) * 20);
-        app.video.ctx.fillText(log.text, 10, -10 + app.height + (i - this.logs.length + 1) * 20);
+        var x = 10;
+        var y = -10 + app.height + (i - this.logs.length + 1) * 20;
+        app.video.ctx.strokeText(log.text, x, y);
+        app.video.ctx.fillText(log.text, x, y);
       }
       app.video.ctx.restore();
     }
