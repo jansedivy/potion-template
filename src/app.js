@@ -7,13 +7,8 @@ var StateManager = require('./lib/state-manager');
 
 var app = Potion.init(document.querySelector('.game'), {
   resize: function() {
-    this.width = document.body.clientWidth;
-    this.height = document.body.clientHeight;
-  },
-
-  configure: function() {
-    // this.width = 700;
-    // this.height = 600;
+    this.width = this.canvas.clientWidth;
+    this.height = this.canvas.clientHeight;
   },
 
   init: function() {
