@@ -109,7 +109,7 @@ module.exports = function(app) {
         var color = 'white';
 
         if (log.type === 'error') {
-          color = 'red';
+          color = '#F6442E';
         } else if (log.type === 'warning') {
           color = 'yellow';
         }
