@@ -15,15 +15,9 @@ var app = Potion.init(document.querySelector('.game'), {
     GameState = require('./states/game-state')(this);
     MenuState = require('./states/menu-state')(this);
 
-    this.config = {
-      stepTime: 0.01666,
-      fixedStep: false
-    };
-
     this.runtime = {
       time: 0,
-      realFps: 0,
-      strayTime: 0
+      realFps: 0
     };
 
     this.game = null;
@@ -50,18 +44,6 @@ var app = Potion.init(document.querySelector('.game'), {
 
     this.runtime.realFps = 1/time;
 
-    if (this.config.fixedStep) {
-      this.runtime.strayTime = this.runtime.strayTime + time;
-      while (this.runtime.strayTime >= this.config.stepTime) {
-        this.runtime.strayTime = this.runtime.strayTime - this.config.stepTime;
-        this._update(this.config.stepTime);
-      }
-    } else {
-      this._update(time);
-    }
-  },
-
-  _update: function(time) {
     this.debug.update(time);
     this.states.update(time);
   },
