@@ -10,6 +10,14 @@ StateManager.prototype.add = function(name, state) {
   return state;
 };
 
+var renderOrderSort = function(a, b) {
+  return a.renderOrder < b.renderOrder;
+};
+
+var updateOrderSort = function(a, b) {
+  return a.updateOrder < b.updateOrder;
+};
+
 StateManager.prototype.refreshOrder = function() {
   this.renderOrder.length = 0;
   this.updateOrder.length = 0;
@@ -21,6 +29,9 @@ StateManager.prototype.refreshOrder = function() {
       this.updateOrder.push(holder);
     }
   }
+
+  this.renderOrder.sort(renderOrderSort);
+  this.updateOrder.sort(updateOrderSort);
 };
 
 StateManager.prototype.newStateHolder = function(name, state) {
@@ -32,7 +43,25 @@ StateManager.prototype.newStateHolder = function(name, state) {
   holder.render = true;
   holder.initialized = false;
   holder.update = true;
+  holder.updateOrder = 0;
+  holder.renderOrder = 0;
   return holder;
+};
+
+StateManager.prototype.setUpdateOrder = function(name, order) {
+  var holder = this.get(name);
+  if (holder) {
+    holder.updateOrder = order;
+    this.refreshOrder();
+  }
+};
+
+StateManager.prototype.setRenderOrder = function(name, order) {
+  var holder = this.get(name);
+  if (holder) {
+    holder.renderOrder = order;
+    this.refreshOrder();
+  }
 };
 
 StateManager.prototype.get = function(name) {

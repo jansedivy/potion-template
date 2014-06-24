@@ -28,7 +28,6 @@ var app = Potion.init(document.querySelector('.game'), {
     this.states = new StateManager();
 
     this.states.add('menu', new MenuState());
-    this.switchState('game');
   },
 
   render: function() {
@@ -45,12 +44,19 @@ var app = Potion.init(document.querySelector('.game'), {
     this.runtime.realFps = 1/time;
 
     this.debug.update(time);
-    this.states.update(time);
+
+    if (this.debug.enableSlowDown) {
+      this.states.update(time / 8);
+    } else {
+      this.states.update(time);
+    }
+  },
+
+  keydown: function(key, e) {
+    if (this.debug.keydown(key, e)) { return; }
   },
 
   keypress: function(key) {
-    if (this.debug.keypress(key)) { return; }
-
     this.states.keypress(key);
   },
 
@@ -60,17 +66,6 @@ var app = Potion.init(document.querySelector('.game'), {
 
   mouseup: function(x, y) {
     this.states.mouseup(x, y);
-  },
-
-  switchState: function(name) {
-    this.states.destroy('menu');
-
-    if (name === 'game') {
-      if (this.states.get('game')) {
-        this.states.remove('game');
-      }
-      this.game = this.states.add('game', new GameState());
-    }
   }
 });
 

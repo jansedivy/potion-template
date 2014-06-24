@@ -1,11 +1,15 @@
 module.exports = function(app) {
+  var GameState = require('../states/game-state')(app);
+
   var MenuState = function() {};
 
   MenuState.prototype.init = function() {
   };
 
   MenuState.prototype.keypress = function() {
-    app.switchState('game');
+    app.states.add('game', new GameState());
+    app.states.setRenderOrder('game', 2);
+    app.states.destroy('menu');
   };
 
   MenuState.prototype.render = function() {
