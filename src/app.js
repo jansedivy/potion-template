@@ -52,8 +52,14 @@ var app = Potion.init(document.querySelector('.game'), {
     }
   },
 
-  keydown: function(key, e) {
-    if (this.debug.keydown(key, e)) { return; }
+  keydown: function(key) {
+    if (this.debug.keydown(key)) { return; }
+
+    this.states.keydown(key);
+  },
+
+  keyup: function(key) {
+    this.states.keyup(key);
   },
 
   keypress: function(key) {
@@ -66,6 +72,10 @@ var app = Potion.init(document.querySelector('.game'), {
 
   mouseup: function(x, y) {
     this.states.mouseup(x, y);
+  },
+
+  mousedown: function(x, y) {
+    this.states.mousedown(x, y);
   }
 });
 
