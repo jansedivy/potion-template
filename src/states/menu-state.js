@@ -8,7 +8,6 @@ module.exports = function(app) {
 
   MenuState.prototype.keypress = function() {
     app.states.add('game', new GameState());
-    app.states.setRenderOrder('game', 2);
     app.states.destroy('menu');
   };
 
