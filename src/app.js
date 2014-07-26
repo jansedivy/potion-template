@@ -1,5 +1,3 @@
-var MenuState, GameState, Debugger;
-
 var Potion = require('potion');
 var Debugger = require('potion-debugger');
 
@@ -17,17 +15,16 @@ var app = Potion.init(document.querySelector('.game'), {
   },
 
   init: function() {
-    GameState = require('./states/game-state')(this);
-    MenuState = require('./states/menu-state')(this);
-
     this.runtime = {
       time: 0,
       realFps: 0
     };
 
+    this.debug = new Debugger(this);
+
     this.game = null;
 
-    this.debug = new Debugger(this);
+    var MenuState = require('./states/menu-state');
 
     this.video.include(VideoMixin);
     this.states = new StateManager();

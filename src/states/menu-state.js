@@ -1,24 +1,24 @@
-module.exports = function(app) {
-  var GameState = require('../states/game-state')(app);
+var app = require('../app');
 
-  var MenuState = function() {};
+var GameState = require('./game-state');
 
-  MenuState.prototype.init = function() {
-  };
+var MenuState = function() {};
 
-  MenuState.prototype.keypress = function() {
-    app.states.add('game', new GameState());
-    app.states.destroy('menu');
-  };
-
-  MenuState.prototype.render = function() {
-    app.video.ctx.save();
-    app.video.ctx.fillStyle = 'blck';
-    app.video.ctx.textAlign = 'center';
-    app.video.ctx.font = '15px sans-serif';
-    app.video.ctx.fillText('Press any key to start the game', app.width/2, 200);
-    app.video.ctx.restore();
-  };
-
-  return MenuState;
+MenuState.prototype.init = function() {
 };
+
+MenuState.prototype.keypress = function() {
+  app.states.add('game', new GameState());
+  app.states.destroy('menu');
+};
+
+MenuState.prototype.render = function() {
+  app.video.ctx.save();
+  app.video.ctx.fillStyle = 'blck';
+  app.video.ctx.textAlign = 'center';
+  app.video.ctx.font = '15px sans-serif';
+  app.video.ctx.fillText('Press any key to start the game', app.width/2, 200);
+  app.video.ctx.restore();
+};
+
+module.exports = MenuState;

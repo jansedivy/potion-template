@@ -1,7 +1,7 @@
-module.exports = function(app) {
-  var GameState = function() {};
+var app = require('../app');
 
-  GameState.prototype.init = function() {};
+var GameState = function() {};
 
-  return GameState;
-};
+GameState.prototype.init = function() {};
+
+module.exports = GameState;
