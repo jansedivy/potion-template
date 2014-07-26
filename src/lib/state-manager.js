@@ -43,6 +43,7 @@ StateManager.prototype.newStateHolder = function(name, state) {
   holder.render = true;
   holder.initialized = false;
   holder.update = true;
+  holder.updated = false;
   holder.updateOrder = 0;
   holder.renderOrder = 0;
   return holder;
@@ -89,6 +90,7 @@ StateManager.prototype.update = function(time) {
 
     if (state.enabled && state.state.update && !state.paused) {
       state.state.update(time);
+      state.updated = true;
     }
   }
 };
@@ -96,7 +98,7 @@ StateManager.prototype.update = function(time) {
 StateManager.prototype.render = function() {
   for (var i=0, len=this.renderOrder.length; i<len; i++) {
     var state = this.renderOrder[i];
-    if (state.enabled && state.state.render && !state.paused) {
+    if (state.enabled && state.updated && state.state.render && !state.paused) {
       state.state.render();
     }
   }
