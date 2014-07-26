@@ -1,6 +1,7 @@
 var MenuState, GameState, Debugger;
 
 var Potion = require('potion');
+var Debugger = require('potion-debugger');
 
 var VideoMixin = require('./lib/video-mixin');
 var StateManager = require('./lib/state-manager');
@@ -9,6 +10,10 @@ var app = Potion.init(document.querySelector('.game'), {
   resize: function() {
     this.width = this.canvas.clientWidth;
     this.height = this.canvas.clientHeight;
+  },
+
+  configure: function() {
+    this.config.useRetina = true;
   },
 
   init: function() {
@@ -22,7 +27,7 @@ var app = Potion.init(document.querySelector('.game'), {
 
     this.game = null;
 
-    this.debug = new Debugger();
+    this.debug = new Debugger(this);
 
     this.video.include(VideoMixin);
     this.states = new StateManager();
@@ -32,24 +37,24 @@ var app = Potion.init(document.querySelector('.game'), {
 
   render: function() {
     this.states.render();
-    this.debug.render();
 
-    this.debug.endFrame();
+    this.debug.render();
   },
 
   update: function(time) {
-    this.debug.beginFrame();
     this.runtime.time = this.runtime.time + time;
 
     this.runtime.realFps = 1/time;
-
-    this.debug.update(time);
 
     if (this.debug.enableSlowDown) {
       this.states.update(time / 8);
     } else {
       this.states.update(time);
     }
+  },
+
+  exitUpdate: function(time) {
+    this.debug.update(time);
   },
 
   keydown: function(key) {
@@ -79,4 +84,4 @@ var app = Potion.init(document.querySelector('.game'), {
   }
 });
 
-Debugger = require('./lib/debugger')(app);
+module.exports = app;

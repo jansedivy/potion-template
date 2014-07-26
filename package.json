@@ -1,12 +1,16 @@
 {
   "name": "potion-template",
   "version": "0.0.0",
-  "devDependencies": {},
+  "scripts": {
+    "dev": "node dev src/app.js bundle.js"
+  },
   "dependencies": {
-    "potion": "jansedivy/potion",
-    "stats.js": "jansedivy/stats.js",
+    "browserify": "^3.44.2",
     "gulp": "^3.6.1",
+    "potion": "jansedivy/potion",
+    "potion-debugger": "^0.1.0",
+    "st": "^0.4.1",
     "vinyl-source-stream": "^0.1.1",
-    "browserify": "^3.44.2"
+    "watchify": "^0.8.3"
   }
 }
