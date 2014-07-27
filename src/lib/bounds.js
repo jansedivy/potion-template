@@ -37,7 +37,7 @@ Object.defineProperty(Bounds.prototype, 'height', {
   },
 
   set: function(value) {
-    this.b = this.l + value;
+    this.b = this.t + value;
   }
 });
 
