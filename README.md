@@ -1,9 +1,14 @@
 # Potion template
 
-Template for making html5 canvas games with [potion framework](https://github.com/jansedivy/potion)
+Template application for [Potion framework](https://github.com/jansedivy/potion)
 
 ## Features
 
-- state manager
-- debugger (logs, warnings, errors)
-- performance monitoring with stats.js
+- State manager
+- Included [Potion Debugger](https://github.com/jansedivy/potion-debugger) for debugging
+- Gulpfile for minifying the application
+
+### Libraries
+
+- Bounds
+- Interval Timer
