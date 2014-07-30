@@ -2,6 +2,10 @@
 
 Template application for [Potion framework](https://github.com/jansedivy/potion)
 
+## Installation
+
+`git clone https://github.com/jansedivy/potion-template.git my-project`
+
 ## Features
 
 - State manager
