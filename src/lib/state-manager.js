@@ -158,4 +158,13 @@ StateManager.prototype.keydown = function(key) {
   }
 };
 
+StateManager.prototype.resize = function() {
+  for (var i=0, len=this.updateOrder.length; i<len; i++) {
+    var state = this.updateOrder[i];
+    if (state.enabled && state.state.resize && !state.paused) {
+      state.state.resize();
+    }
+  }
+};
+
 module.exports = StateManager;
