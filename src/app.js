@@ -4,6 +4,7 @@ var VideoMixin = require('./lib/video-mixin');
 
 var app = Potion.init(document.querySelector('.game'), {
   configure: function() {
+    this.setSize(700, 500);
     this.config.useRetina = false;
   },
 

@@ -5,12 +5,11 @@ var GameState = require('./game-state');
 var MenuState = function() {};
 
 MenuState.prototype.init = function() {
-};
-
-MenuState.prototype.keypress = function() {
   app.states.add('game', new GameState());
   app.states.destroy('menu');
 };
+
+MenuState.prototype.update = function() {};
 
 MenuState.prototype.render = function() {
   app.video.ctx.save();
